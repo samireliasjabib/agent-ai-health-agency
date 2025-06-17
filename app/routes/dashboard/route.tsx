@@ -43,23 +43,27 @@ export const loader = async (args: LoaderFunctionArgs) => {
 export default function Dashboard() {
   const { user } = useLoaderData<typeof loader>()
   return (
-    <div className="min-h-screen bg-main-texture">
       <SidebarProvider>
         <AppSidebar user={user as unknown as User} />
-        <SidebarInset className="bg-main-texture">
-          <header className="flex h-16 shrink-0 items-center gap-2 bg-header-texture px-4 backdrop-blur-sm">
-            <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground" />
+        <SidebarInset className="!shadow-none !border-none !rounded-none !p-0 !bg-sidebar">
+          <header className="flex h-16 shrink-0 items-center gap-2  px-4 bg-sidebar border-b border-border">
+            <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors duration-200" />
             <Separator orientation="vertical" className="mr-2 h-4 bg-border" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#" className="text-muted-foreground hover:text-foreground">
+                  <BreadcrumbLink 
+                    href="#" 
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
+                  >
                     Core Operations
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block text-muted-foreground" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-foreground">Store Health</BreadcrumbPage>
+                  <BreadcrumbPage className="text-foreground font-semibold">
+                    Store Health
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -74,6 +78,5 @@ export default function Dashboard() {
           </div>
         </SidebarInset>
       </SidebarProvider>
-    </div>
   )
 }

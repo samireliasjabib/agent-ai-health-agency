@@ -84,7 +84,7 @@ const data = {
           icon: Users,
         },
         {
-          title: "Seed Health",
+          title: "Seedid.AI Health",
           url: "/dashboard/seed-health",
           icon: Seedling,
         },
@@ -122,10 +122,11 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
       variant="inset" 
       collapsible="icon" 
       {...props}
+      className="border-r border-border bg-sidebar"
     >
       <SidebarHeader>
         <div className="flex items-center gap-3 px-3 py-3 transition-all duration-200">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground shadow-sm transition-all duration-200 hover:shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:shadow-md">
             <Zap className="h-4 w-4" />
           </div>
           <div className={`grid flex-1 text-left text-sm leading-tight transition-all duration-200 ${
@@ -141,7 +142,7 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-2 bg-sidebar">
         {data.navMain.map((section) => (
           <SidebarGroup key={section.title} className="py-2">
             <SidebarGroupLabel className={`text-sidebar-foreground/60 transition-all duration-200 ${
