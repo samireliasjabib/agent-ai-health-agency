@@ -1,7 +1,6 @@
 import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
@@ -74,7 +73,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <SharedHeader />
 
-      <main>
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-20 text-center">
           <div className="max-w-4xl mx-auto space-y-8">
@@ -236,8 +235,7 @@ export default function LandingPage() {
             <SignedOut>
               <SignInButton 
                 mode="modal"
-                afterSignInUrl="/onboarding/role-selection"
-                afterSignUpUrl="/onboarding/role-selection"
+                fallbackRedirectUrl={`/onboarding/role-selection`}
               >
                 <Button size="lg" className="px-8 py-6 text-lg font-medium group">
                   Access Internal Platform
