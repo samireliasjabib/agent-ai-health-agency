@@ -324,14 +324,14 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
           </div>
           
           {user && (
-            <div className={`grid flex-1 text-left text-sm leading-tight transition-all duration-200 ${
+            <div className={`flex flex-col flex-1 text-left leading-tight transition-all duration-200 ${
               state === "collapsed" ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
             }`}>
-              <span className="truncate font-semibold text-sidebar-foreground">
+              <span className="truncate text-sm font-semibold text-sidebar-foreground">
                 {user.name}
               </span>
-              <span className="truncate text-xs text-sidebar-foreground/60 capitalize">
-                {user.role?.toLowerCase()}
+              <span className="truncate text-xs text-sidebar-foreground/60 capitalize mt-0.5">
+                {user.role?.toLowerCase().replace('_', ' ')}
               </span>
             </div>
           )}

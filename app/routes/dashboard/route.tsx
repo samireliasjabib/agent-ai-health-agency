@@ -20,22 +20,38 @@ import { User } from "./types"
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
+
   if (!userId) {
-    return redirect("/sign-in");
+    return redirect("/");
   }
 
+  // Buscar usuario por clerkId (no por id)
   const user = await prisma.user.findUnique({
     where: {
-      id: userId,
+      clerkId: userId,
     },
   })
 
+  if (!user) {
+    return redirect("/");
+  }
+
+  // Verificar onboarding
+  if (!user.onboardingComplete || !user.role) {
+    return redirect("/onboarding/role-selection");
+  }
+
+  // Crear el nombre completo de manera más robusta
+  const fullName = [user.firstName, user.lastName]
+    .filter(Boolean)
+    .join(" ") || user.email?.split("@")[0] || "Usuario"
+
   return {
-    user:{
-      name: user?.firstName + " " + user?.lastName,
-      email: user?.email,
-      role: user?.role,
-      imageUrl: user?.imageUrl,
+    user: {
+      name: fullName,
+      email: user.email,
+      role: user.role || "USER",
+      imageUrl: user.imageUrl,
     }
   }
 }
@@ -43,10 +59,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 export default function Dashboard() {
   const { user } = useLoaderData<typeof loader>()
   return (
+    <div className="min-h-screen bg-main-texture">
       <SidebarProvider>
         <AppSidebar user={user as unknown as User} />
-        <SidebarInset className="!shadow-none !border-none !rounded-none !p-0 !bg-sidebar">
-          <header className="flex h-16 shrink-0 items-center gap-2  px-4 bg-sidebar border-b border-border">
+        <SidebarInset className="">
+          <header className="flex h-16 shrink-0 items-center gap-2 bg-sidebar border-b border-border px-4">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors duration-200" />
             <Separator orientation="vertical" className="mr-2 h-4 bg-border" />
             <Breadcrumb>
@@ -78,5 +95,6 @@ export default function Dashboard() {
           </div>
         </SidebarInset>
       </SidebarProvider>
+    </div>
   )
 }

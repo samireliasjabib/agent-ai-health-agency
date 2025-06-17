@@ -60,7 +60,7 @@ const roles = [
 export async function loader(args: LoaderFunctionArgs) {
   const { userId } = await getAuth(args);
   if (!userId) {
-    return redirect("/sign-in");
+    return redirect("/");
   }
 
   const clerkUser = await createClerkClient({
@@ -84,7 +84,7 @@ export async function loader(args: LoaderFunctionArgs) {
 
   // Step 2: If the user already exists and has completed onboarding, redirect them.
   if (dbUser && dbUser.onboardingComplete) {
-    return redirect("/dashboard");
+    return redirect("/dashboard/overview");
   }
 
   // Step 3: If the user does not exist in our database, create them.
@@ -132,7 +132,7 @@ export async function action(args: ActionFunctionArgs) {
     },
   });
 
-  return redirect("/dashboard");
+  return redirect("/dashboard/overview");
 }
 
 export default function RoleSelectionPage() {
