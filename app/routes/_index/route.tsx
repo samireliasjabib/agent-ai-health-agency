@@ -24,6 +24,7 @@ import {
   Bot,
   Sparkles,
 } from "lucide-react";
+import { SharedHeader } from "~/components/shared-header";
 
 export const meta: MetaFunction = () => {
   return [
@@ -71,28 +72,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Header */}
-      <header className="border-b border-border/40 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-primary/10">
-                <Building2 className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">ArcticGrey</h1>
-                <p className="text-xs text-muted-foreground">AI Intelligence Platform</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <ModeToggle />
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SharedHeader />
 
       <main>
         {/* Hero Section */}

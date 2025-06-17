@@ -31,6 +31,7 @@ import { cn } from "~/lib/utils";
 import { ModeToggle } from "~/components/mode-toggle";
 import { Progress } from "~/components/ui/progress";
 import { Badge } from "~/components/ui/badge";
+import { SharedHeader } from "~/components/shared-header";
 
 const roles = [
   {
@@ -144,19 +145,7 @@ export default function RoleSelectionPage() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-10 p-6">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Building2 className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">ArcticGrey</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-            <UserButton afterSignOutUrl="/sign-in" />
-          </div>
-        </div>
-      </header>
+      <SharedHeader />
 
       <div className="flex min-h-screen items-center justify-center p-6 pt-24">
         <main className="w-full max-w-6xl">
@@ -164,7 +153,7 @@ export default function RoleSelectionPage() {
           <div className="text-center mb-12 animate-in fade-in-0 slide-in-from-top-4 duration-700">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="h-4 w-4 text-green-500" />
+                <CheckCircle className="h-4 w-4 text-primary" />
                 <span>Account Created</span>
               </div>
               <div className="w-8 border-t border-muted-foreground/30" />
@@ -185,7 +174,7 @@ export default function RoleSelectionPage() {
 
           {/* Welcome Section */}
           <div className="text-center mb-12 animate-in fade-in-0 slide-in-from-bottom-4 duration-800 delay-200">
-            <h1 className="text-4xl font-bold tracking-tight mb-4">
+            <h1 className="text-4xl font-bold tracking-tight mb-4 text-foreground">
               Welcome to ArcticGrey, {firstName}!
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -236,7 +225,7 @@ export default function RoleSelectionPage() {
                         </Badge>
                       </div>
                       <div>
-                        <CardTitle className="text-xl mb-2">{role.name}</CardTitle>
+                        <CardTitle className="text-xl mb-2 text-foreground">{role.name}</CardTitle>
                         <CardDescription className="text-sm leading-relaxed">
                           {role.description}
                         </CardDescription>
@@ -248,7 +237,7 @@ export default function RoleSelectionPage() {
                         <h4 className="text-sm font-medium text-muted-foreground">Permissions:</h4>
                         <ul className="space-y-1">
                           <li className="flex items-start gap-2 text-sm">
-                            <CheckCircle className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                            <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
                             <span className="text-muted-foreground">Access to all features</span>
                           </li>
                         </ul>
@@ -298,7 +287,7 @@ export default function RoleSelectionPage() {
                 Need help choosing? {" "}
                 <button
                   type="button"
-                  className="text-primary hover:underline font-medium"
+                  className="text-primary hover:text-primary/80 font-medium transition-colors"
                   onClick={() => {
                     // Could open a help modal or scroll to info section
                   }}
