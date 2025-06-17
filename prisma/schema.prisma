@@ -7,81 +7,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
+// User model to sync with Clerk
+model User {
+  id String @id @default(cuid())
+  clerkId            String   @unique
+  email              String   @unique
+  firstName          String?
+  lastName           String?
+  imageUrl           String?
+  role               String?
+  onboardingComplete Boolean  @default(false) // New field to track onboarding status
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // A user can manage multiple clients
+  clients   Client[]
+
+  @@map("users")
+}
+
+
 model Client {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  pm          String   // Project Manager
-  email       String?
-  revenue     Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  id        String   @id @default(cuid())
+  name      String   @unique
+  // pm       String   // This is now handled by the user relation
+  email     String?
+  revenue   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relation to the User who is the Project Manager
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
   // Computed fields
-  healthScore Float    @default(5.0)
-  riskLevel   String   @default("medium") // low, medium, high
-  
-  calls       Call[]
-  analyses    CallAnalysis[]
-  alerts      Alert[]
-  
+  healthScore Float @default(5.0)
+  riskLevel   String @default("medium") // low, medium, high
+
+  calls     Call[]
+  analyses  CallAnalysis[]
+  alerts    Alert[]
+
   @@map("clients")
 }
 
 model Call {
-  id          String   @id @default(cuid())
-  clientId    String
-  firefliesId String?  @unique // Fireflies meeting ID
-  title       String?  // Meeting title
-  date        DateTime
-  duration    Int?     // in minutes
-  transcript  String?
-  participants String? // JSON array of participants
-  createdAt   DateTime @default(now())
-  
-  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  analysis    CallAnalysis?
-  
+  id           String   @id @default(cuid())
+  clientId     String
+  firefliesId  String?  @unique // Fireflies meeting ID
+  title        String?  // Meeting title
+  date         DateTime
+  duration     Int?     // in minutes
+  transcript   String?
+  participants String?  // JSON array of participants
+  createdAt    DateTime @default(now())
+
+  client   Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  analysis CallAnalysis?
+
   @@map("calls")
 }
 
 model CallAnalysis {
-  id               String   @id @default(cuid())
-  callId           String   @unique
-  clientId         String
-  
-  // Sentiment analysis
+  id             String   @id @default(cuid())
+  callId         String   @unique
+  clientId       String
   overallSentiment String   // positive, negative, neutral
-  sentimentScore   Float    // -1 to 1
-  
-  // Issues detected
-  issues           String   // JSON array of issues
-  issuesCount      Int      @default(0)
-  
-  // Risk indicators
-  riskIndicators   String   // JSON array of risk phrases
-  riskScore        Float    @default(0.0) // 0 to 1
-  
-  // Key phrases
-  keyPhrases       String   // JSON array of important phrases
-  
-  createdAt        DateTime @default(now())
-  
-  call             Call     @relation(fields: [callId], references: [id], onDelete: Cascade)
-  client           Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  
+  sentimentScore Float    // -1 to 1
+  issues         String   // JSON array of issues
+  issuesCount    Int      @default(0)
+  riskIndicators String   // JSON array of risk phrases
+  riskScore      Float    @default(0.0) // 0 to 1
+  keyPhrases     String   // JSON array of important phrases
+  createdAt      DateTime @default(now())
+
+  call   Call   @relation(fields: [callId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
   @@map("call_analyses")
 }
 
 model Alert {
-  id          String   @id @default(cuid())
-  clientId    String
-  type        String   // risk_escalation, sentiment_drop, issues_spike
-  severity    String   // low, medium, high, critical
-  message     String
-  resolved    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  
-  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  
+  id        String   @id @default(cuid())
+  clientId  String
+  type      String   // risk_escalation, sentiment_drop, issues_spike
+  severity  String   // low, medium, high, critical
+  message   String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
   @@map("alerts")
 }
