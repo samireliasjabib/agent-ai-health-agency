@@ -1,5 +1,3 @@
-"use client"
-
 import { LoaderFunctionArgs, redirect } from "@remix-run/node"
 import { AppSidebar } from "./components/dashboard-sidebar"
 
@@ -15,8 +13,15 @@ import { Separator } from "~/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
 import { getAuth } from "@clerk/remix/ssr.server"
 import { prisma } from "~/db.server"
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, Outlet } from "@remix-run/react"
 import { User } from "./types"
+import { HealthDistributionChart } from "./components/health-distribution-chart"
+import { StoreMonitoringTable } from "./components/store-monitoring-table"
+import { AIAgentsStatus } from "./components/ai-agents-status"
+import { QuickActions } from "./components/quick-actions"
+import { HealthTrendChart } from "./components/health-trend-chart"
+import { MetricsCards } from "./components/metrics-cards"
+import { RevenueImpactChart } from "./components/revenue-impact-chart"
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
@@ -59,11 +64,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 export default function Dashboard() {
   const { user } = useLoaderData<typeof loader>()
   return (
-    <div className="min-h-screen bg-main-texture">
+    <div className="min-h-screen bg-background">
       <SidebarProvider>
         <AppSidebar user={user as unknown as User} />
-        <SidebarInset className="">
-          <header className="flex h-16 shrink-0 items-center gap-2 bg-sidebar border-b border-border px-4">
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 bg-sidebar border-b border-border px-6">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors duration-200" />
             <Separator orientation="vertical" className="mr-2 h-4 bg-border" />
             <Breadcrumb>
@@ -85,14 +90,50 @@ export default function Dashboard() {
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="flex flex-1 flex-col gap-6 p-4 sm:p-6">
-            <div className="mb-2">
-              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Store Health Dashboard</h1>
-              <p className="text-muted-foreground text-base">
-                Real-time monitoring and health assessment for all Shopify stores
-              </p>
+          
+          <main className="flex-1 p-6">
+            <div className="mx-auto max-w-7xl space-y-8">
+              {/* Header */}
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold text-foreground">
+                  Store Health Dashboard
+                </h1>
+                <p className="text-muted-foreground">
+                  Real-time monitoring and health assessment for all Shopify stores
+                </p>
+              </div>
+
+              {/* Critical Metrics */}
+              <MetricsCards />
+
+              {/* Main Health Distribution Chart with Activity Log */}
+              <HealthDistributionChart />
+
+              {/* Symmetric Charts Row */}
+              <div className="grid gap-6 lg:grid-cols-2">
+                <HealthTrendChart />
+                <RevenueImpactChart />
+              </div>
+
+              {/* AI Automations */}
+              <QuickActions />
+
+              {/* Monitoring Section */}
+              <div className="grid gap-6 lg:grid-cols-4">
+                <div className="lg:col-span-3">
+                  <StoreMonitoringTable />
+                </div>
+                <div className="lg:col-span-1">
+                  <AIAgentsStatus />
+                </div>
+              </div>
+
+              {/* Nested routes content */}
+              <div className="mt-8">
+                <Outlet />
+              </div>
             </div>
-          </div>
+          </main>
         </SidebarInset>
       </SidebarProvider>
     </div>

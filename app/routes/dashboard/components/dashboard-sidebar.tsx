@@ -36,6 +36,7 @@ import { UserButton } from "@clerk/remix"
 import { Button } from "~/components/ui/button"
 import { Theme, useTheme } from "remix-themes"
 import { User } from "../types"
+import { cn } from "~/lib/utils"
 
 const data = {
   navMain: [
@@ -121,10 +122,10 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
     <Sidebar 
       variant="inset" 
       collapsible="icon" 
+      className={cn('bg-sidebar-texture',state !== 'collapsed' && 'border-r border-border')}
       {...props}
-      className="border-r border-border bg-sidebar"
     >
-      <SidebarHeader>
+      <SidebarHeader >
         <div className="flex items-center gap-3 px-3 py-3 transition-all duration-200">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:shadow-md">
             <Zap className="h-4 w-4" />
@@ -142,7 +143,7 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-2 bg-sidebar">
+      <SidebarContent className="px-2">
         {data.navMain.map((section) => (
           <SidebarGroup key={section.title} className="py-2">
             <SidebarGroupLabel className={`text-sidebar-foreground/60 transition-all duration-200 ${
@@ -176,7 +177,7 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="space-y-2">
+      <SidebarFooter className="space-y-2 bg-sidebar-texture">
         {/* Dark Mode Toggle */}
         <div className="px-3 py-2">
           <Button

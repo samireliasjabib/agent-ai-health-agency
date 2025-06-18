@@ -109,17 +109,23 @@ export default function LandingPage() {
             </SignedOut>
 
             <SignedIn>
-              <Card className="max-w-md mx-auto animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-lg">Welcome back!</CardTitle>
+              <Card className="max-w-md mx-auto animate-in fade-in-0 slide-in-from-bottom-4 duration-500 border-primary/20 bg-gradient-to-br from-card to-primary/5">
+                <CardHeader className="text-center pb-4">
+                  <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <CheckCircle className="h-6 w-6 text-primary" />
                   </div>
+                  <CardTitle className="text-xl font-semibold">Welcome back!</CardTitle>
+                  <CardDescription className="text-muted-foreground mt-2">
+                    You're signed in and ready to access your dashboard
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">
-                    You're signed in and ready to access your dashboard.
-                  </p>
+                <CardContent className="text-center space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span>Connected to ArcticGrey Platform</span>
+                    </div>
+                  </div>
                   <Link to="/dashboard">
                     <Button className="w-full" size="lg">
                       Go to Dashboard
