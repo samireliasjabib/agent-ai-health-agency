@@ -3,34 +3,43 @@
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { Badge } from "~/components/ui/badge"
 import { Progress } from "~/components/ui/progress"
-import { Brain, BarChart3, Package, Bot } from "lucide-react"
+import { Brain, BarChart3, Package, Bot, Info } from "lucide-react"
 
 const aiAgents = [
   {
-    name: "Sentiment Analysis Engine",
+    name: "AI Client Sentiment Monitor",
     type: "NLP",
     status: "active",
-    description: "Analyzes customer reviews and feedback across all stores",
-    uptime: "99.8%",
-    todayProcessed: "2.4K reviews",
+    description: "Analiza emails y llamadas de clientes para detectar satisfacción y señales de riesgo en tiempo real.",
+    uptime: "99.9%",
+    todayProcessed: "1.8K mensajes",
     icon: Brain,
   },
   {
-    name: "Automated Report Generator", 
+    name: "AI PM Feedback Assistant",
     type: "Analytics",
     status: "active",
-    description: "Generates daily, weekly, and monthly performance reports",
+    description: "Resume feedback de los project managers y resalta issues urgentes para el equipo de liderazgo.",
     uptime: "100%",
-    todayProcessed: "45 reports",
+    todayProcessed: "32 reportes",
     icon: BarChart3,
   },
   {
-    name: "Inventory Predictor",
+    name: "AutoFeedback para PMs",
     type: "ML",
-    status: "active", 
-    description: "Predicts stock levels and suggests reorder points",
-    uptime: "99.2%",
-    todayProcessed: "1.2K predictions",
+    status: "active",
+    description: "Genera retroalimentación automática para los PMs basada en sus interacciones recientes con clientes.",
+    uptime: "98.7%",
+    todayProcessed: "17 sesiones",
+    icon: Bot,
+  },
+  {
+    name: "Creative Brief Generator",
+    type: "Content",
+    status: "maintenance",
+    description: "Genera briefs creativos automáticamente a partir de notas y reuniones con clientes.",
+    uptime: "97.5%",
+    todayProcessed: "12 briefs",
     icon: Package,
   },
 ]
@@ -77,14 +86,21 @@ export function AIAgentsStatus() {
         {aiAgents.map((agent, index) => {
           const IconComponent = agent.icon
           return (
-            <div key={index} className="p-4 rounded-lg border border-border/50 bg-background/30">
+            <div
+              key={index}
+              className="p-4 rounded-lg border border-border/50 bg-background/30 transition-shadow hover:shadow-lg hover:bg-background/60"
+            >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-md bg-muted/50">
                     <IconComponent className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground">{agent.name}</div>
+                    <div className="font-semibold text-foreground flex items-center gap-1">
+                      {agent.name}
+                      {/* Optional: Info icon for tooltip */}
+                      {/* <Info className="h-3 w-3 text-muted-foreground cursor-pointer" /> */}
+                    </div>
                     <Badge variant="outline" className="text-xs">
                       {agent.type}
                     </Badge>
@@ -97,21 +113,24 @@ export function AIAgentsStatus() {
                   </Badge>
                 </div>
               </div>
-              
               <p className="text-sm text-muted-foreground mb-3">
                 {agent.description}
               </p>
-              
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Uptime: </span>
                   <span className="font-semibold text-foreground">{agent.uptime}</span>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Today: </span>
+                  <span className="text-muted-foreground">Hoy: </span>
                   <span className="font-semibold text-foreground">{agent.todayProcessed}</span>
                 </div>
               </div>
+              {index < aiAgents.length - 1 && (
+                <div className="mt-4">
+                  <div className="border-t border-border/30" />
+                </div>
+              )}
             </div>
           )
         })}

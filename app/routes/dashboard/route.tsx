@@ -16,12 +16,12 @@ import { prisma } from "~/db.server"
 import { useLoaderData, Outlet } from "@remix-run/react"
 import { User } from "./types"
 import { HealthDistributionChart } from "./components/health-distribution-chart"
-import { StoreMonitoringTable } from "./components/store-monitoring-table"
 import { AIAgentsStatus } from "./components/ai-agents-status"
 import { QuickActions } from "./components/quick-actions"
 import { HealthTrendChart } from "./components/health-trend-chart"
 import { MetricsCards } from "./components/metrics-cards"
 import { RevenueImpactChart } from "./components/revenue-impact-chart"
+import { StoreMonitoringTable } from "./components/store-monitoring-table"
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);

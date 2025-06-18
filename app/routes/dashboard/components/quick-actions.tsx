@@ -1,201 +1,211 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
-import { Button } from "~/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
 import { Badge } from "~/components/ui/badge"
+import { Button } from "~/components/ui/button"
 import { 
-  CheckSquare, 
-  Zap, 
-  Calendar,
-  Users,
-  MessageCircle,
-  FileText,
-  Timer,
-  Target,
+  Zap,
+  CheckCircle, 
+  AlertTriangle,
   Clock,
-  CheckCircle,
-  GitBranch,
-  Briefcase
+  Calendar,
+  Target,
+  TrendingUp,
+  Users,
+  MessageSquare,
+  Shield,
+  BarChart3,
+  RefreshCw
 } from "lucide-react"
 
-const projectManagementAutomations = [
+interface AutomationAction {
+  id: string
+  title: string
+  description: string
+  category: string
+  status: "ready" | "active" | "scheduled" | "maintenance"
+  frequency: string
+  icon: any
+  bgColor: string
+  borderColor: string
+  badgeColor: string
+}
+
+const automationActions: AutomationAction[] = [
   {
-    id: "task-assignment",
-    title: "Automated Task Assignment",
-    description: "Intelligently assign tasks to team members based on workload and skills",
-    icon: CheckSquare,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50 dark:bg-blue-900/20",
-    borderColor: "border-blue-200 dark:border-blue-800",
+    id: "1",
+    title: "Smart Client Health Reports",
+    description: "Automatically generate comprehensive health reports with AI insights and send to clients weekly",
+    category: "Analytics",
     status: "ready",
-    estimatedTime: "Instant",
-    category: "Task Management"
+    frequency: "Weekly",
+    icon: BarChart3,
+    bgColor: "bg-green-500/5",
+    borderColor: "border-green-500/20",
+    badgeColor: "bg-green-500/10 text-green-600 border-green-500/20"
   },
   {
-    id: "deadline-tracking",
-    title: "Deadline & Milestone Tracking",
-    description: "Monitor project deadlines and send automated reminders to stakeholders",
-    icon: Calendar,
-    color: "text-red-500",
-    bgColor: "bg-red-50 dark:bg-red-900/20",
-    borderColor: "border-red-200 dark:border-red-800",
+    id: "2", 
+    title: "Critical Issue Alert System",
+    description: "Monitor store performance and instantly notify stakeholders when critical issues are detected",
+    category: "Monitoring",
     status: "active",
-    estimatedTime: "Real-time",
-    category: "Scheduling"
+    frequency: "Real-time",
+    icon: Shield,
+    bgColor: "bg-red-500/5",
+    borderColor: "border-red-500/20", 
+    badgeColor: "bg-red-500/10 text-red-600 border-red-500/20"
   },
   {
-    id: "team-standup",
-    title: "Daily Standup Automation",
-    description: "Generate standup reports and track team progress automatically",
-    icon: Users,
-    color: "text-green-500",
-    bgColor: "bg-green-50 dark:bg-green-900/20",
-    borderColor: "border-green-200 dark:border-green-800",
+    id: "3",
+    title: "Revenue Optimization Engine", 
+    description: "Analyze performance patterns and automatically suggest revenue improvement strategies",
+    category: "Strategy",
     status: "scheduled",
-    estimatedTime: "Daily 9 AM",
-    category: "Team Management"
+    frequency: "Daily 9 AM",
+    icon: TrendingUp,
+    bgColor: "bg-blue-500/5",
+    borderColor: "border-blue-500/20",
+    badgeColor: "bg-blue-500/10 text-blue-600 border-blue-500/20"
   },
   {
-    id: "client-updates",
-    title: "Client Progress Updates",
-    description: "Automatically generate and send project status updates to clients",
-    icon: MessageCircle,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50 dark:bg-purple-900/20",
-    borderColor: "border-purple-200 dark:border-purple-800",
+    id: "4",
+    title: "Client Communication Hub",
+    description: "Send automated project updates, milestone notifications, and performance summaries to clients",
+    category: "Communication", 
     status: "ready",
-    estimatedTime: "Weekly",
-    category: "Communication"
+    frequency: "Bi-weekly",
+    icon: MessageSquare,
+    bgColor: "bg-purple-500/5",
+    borderColor: "border-purple-500/20",
+    badgeColor: "bg-purple-500/10 text-purple-600 border-purple-500/20"
   },
   {
-    id: "time-tracking",
-    title: "Smart Time Tracking",
-    description: "Track time spent on tasks and projects with AI-powered insights",
-    icon: Timer,
-    color: "text-orange-500",
-    bgColor: "bg-orange-50 dark:bg-orange-900/20",
-    borderColor: "border-orange-200 dark:border-orange-800",
+    id: "5",
+    title: "Team Productivity Tracker",
+    description: "Monitor team performance metrics and automatically distribute workload for optimal efficiency",
+    category: "Team Management",
+    status: "ready", 
+    frequency: "Continuous",
+    icon: Users,
+    bgColor: "bg-orange-500/5",
+    borderColor: "border-orange-500/20",
+    badgeColor: "bg-orange-500/10 text-orange-600 border-orange-500/20"
+  },
+  {
+    id: "6",
+    title: "Competitor Analysis Bot",
+    description: "Track competitor pricing, features, and marketing strategies with automated intelligence reports",
+    category: "Research",
     status: "ready",
-    estimatedTime: "Continuous",
-    category: "Analytics"
-  },
-  {
-    id: "resource-allocation",
-    title: "Resource Allocation",
-    description: "Optimize team resources and workload distribution across projects",
+    frequency: "Daily",
     icon: Target,
-    color: "text-pink-500",
-    bgColor: "bg-pink-50 dark:bg-pink-900/20",
-    borderColor: "border-pink-200 dark:border-pink-800",
-    status: "ready",
-    estimatedTime: "5 min",
-    category: "Planning"
+    bgColor: "bg-cyan-500/5", 
+    borderColor: "border-cyan-500/20",
+    badgeColor: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20"
   },
   {
-    id: "sprint-planning",
-    title: "Sprint Planning Assistant",
-    description: "AI-powered sprint planning with velocity tracking and story estimation",
-    icon: GitBranch,
-    color: "text-indigo-500",
-    bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
-    borderColor: "border-indigo-200 dark:border-indigo-800",
-    status: "ready",
-    estimatedTime: "30 min",
-    category: "Agile"
+    id: "7",
+    title: "Smart Project Scheduling",
+    description: "AI-powered project timeline optimization that adapts to team capacity and client deadlines",
+    category: "Planning",
+    status: "maintenance",
+    frequency: "Weekly",
+    icon: Calendar,
+    bgColor: "bg-yellow-500/5",
+    borderColor: "border-yellow-500/20", 
+    badgeColor: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20"
   },
   {
-    id: "project-health",
-    title: "Project Health Monitoring",
-    description: "Monitor project health metrics and predict potential risks or delays",
-    icon: Briefcase,
-    color: "text-cyan-500",
-    bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
-    borderColor: "border-cyan-200 dark:border-cyan-800",
+    id: "8",
+    title: "Performance Forecasting AI",
+    description: "Predict store performance trends and automatically adjust strategies for maximum ROI",
+    category: "Forecasting",
     status: "ready",
-    estimatedTime: "Real-time",
-    category: "Monitoring"
+    frequency: "Real-time",
+    icon: RefreshCw,
+    bgColor: "bg-indigo-500/5",
+    borderColor: "border-indigo-500/20",
+    badgeColor: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20"
   }
 ]
 
-function getStatusBadge(status: string) {
-  switch (status) {
-    case "active":
-      return <Badge className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400">
-        <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          Active
-        </div>
-      </Badge>
-    case "scheduled":
-      return <Badge className="bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400">
-        <div className="flex items-center gap-1">
-          <Clock className="w-3 h-3" />
-          Scheduled
-        </div>
-      </Badge>
-    case "ready":
-      return <Badge variant="outline" className="bg-background">
-        <div className="flex items-center gap-1">
-          <CheckCircle className="w-3 h-3" />
-          Ready
-        </div>
-      </Badge>
-    default:
-      return <Badge variant="secondary">Idle</Badge>
+const getStatusBadge = (status: AutomationAction['status'], badgeColor: string) => {
+  const statusConfig = {
+    ready: { label: "Ready", icon: CheckCircle },
+    active: { label: "Active", icon: Zap },
+    scheduled: { label: "Scheduled", icon: Clock },
+    maintenance: { label: "Maintenance", icon: AlertTriangle }
   }
+  
+  const { label, icon: StatusIcon } = statusConfig[status]
+  
+  return (
+    <Badge variant="outline" className={`${badgeColor} flex items-center gap-1 text-xs font-medium`}>
+      <StatusIcon className="h-3 w-3" />
+      {label}
+    </Badge>
+  )
 }
 
 export function QuickActions() {
   return (
-    <Card className="bg-card-texture">
-      <CardHeader className="pb-6">
-        <CardTitle className="text-xl font-semibold text-foreground flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Zap className="h-5 w-5 text-primary" />
-          </div>
-          Project Management Automation
+    <Card>
+      <CardHeader className="text-center pb-6">
+        <CardTitle className="flex items-center justify-center gap-2 text-xl">
+          <Zap className="h-6 w-6 text-primary" />
+          AI Automation Hub
         </CardTitle>
-        <p className="text-muted-foreground">
-          Streamline project workflows and team coordination with intelligent automation
-        </p>
+        <CardDescription>
+          Intelligent workflows to streamline operations and maximize efficiency
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {projectManagementAutomations.map((automation) => {
-            const Icon = automation.icon
-            
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {automationActions.map((action) => {
+            const IconComponent = action.icon
             return (
-              <Button
-                key={automation.id}
-                variant="outline"
-                className={`h-auto p-4 flex flex-col gap-3 transition-all duration-200 hover:shadow-lg ${automation.bgColor} ${automation.borderColor} hover:scale-[1.02] border-2`}
+              <Card 
+                key={action.id} 
+                className={`${action.bgColor} ${action.borderColor} border-2 hover:shadow-md transition-all duration-200 cursor-pointer group h-full`}
               >
-                <div className="flex items-center justify-between w-full">
-                  <div className="p-2 rounded-lg bg-background/50">
-                    <Icon className={`h-4 w-4 ${automation.color}`} />
-                  </div>
-                  {getStatusBadge(automation.status)}
-                </div>
-                
-                <div className="text-left w-full space-y-2">
-                  <div className="font-semibold text-foreground text-sm leading-tight">
-                    {automation.title}
-                  </div>
-                  <div className="text-xs text-muted-foreground leading-relaxed">
-                    {automation.description}
+                <CardContent className="p-4 h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 rounded-lg bg-background/80">
+                      <IconComponent className="h-5 w-5 text-foreground" />
+                    </div>
+                    {getStatusBadge(action.status, action.badgeColor)}
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2 border-t border-border/50">
-                    <Badge variant="secondary" className="text-xs font-medium">
-                      {automation.category}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
-                      <Clock className="h-3 w-3" />
-                      {automation.estimatedTime}
+                  <div className="flex-1 text-center space-y-2">
+                    <h3 className="font-semibold text-sm text-foreground leading-tight">
+                      {action.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                      {action.description}
+                    </p>
+                  </div>
+                  
+                  <div className="mt-4 pt-3 border-t border-border/50">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground font-medium">
+                        {action.category}
+                      </span>
+                      <span className="text-muted-foreground">
+                        {action.frequency}
+                      </span>
                     </div>
                   </div>
-                </div>
-              </Button>
+                  
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="mt-3 w-full group-hover:bg-background/60 transition-colors"
+                  >
+                    Configure
+                  </Button>
+                </CardContent>
+              </Card>
             )
           })}
         </div>
