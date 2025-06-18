@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { Badge } from "~/components/ui/badge"
@@ -291,17 +290,11 @@ export function StoreMonitoringTable() {
               <TableHeader>
                 <TableRow className="border-border/50 bg-muted/30">
                   <TableHead className="text-muted-foreground font-semibold min-w-[180px]">Store Info</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Health</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">CWV</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Traffic</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Revenue</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Satisfaction</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Feedback</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[100px]">Priority</TableHead>
+                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Satisfacción</TableHead>
                   <TableHead className="text-muted-foreground font-semibold text-center min-w-[100px]">AI Agents</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">Critical Issues</TableHead>
-                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[100px]">Status</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[120px]">CWV</TableHead>
+                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[100px]">Priority</TableHead>
+                  <TableHead className="text-muted-foreground font-semibold text-center min-w-[200px]">Feedback</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -317,94 +310,33 @@ export function StoreMonitoringTable() {
                         <div className="text-xs text-muted-foreground">{store.storeId}</div>
                       </div>
                     </TableCell>
-
-                    {/* Health */}
-                    <TableCell className="text-center py-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-center gap-1">
-                          <span className="text-xl font-bold text-foreground">{store.healthScore}</span>
-                          <span className="text-xs text-muted-foreground">%</span>
-                        </div>
-                        <Badge variant="outline" className={`text-xs ${getHealthBadgeColor(store.healthStatus)}`}>
-                          {store.healthStatus}
-                        </Badge>
-                      </div>
-                    </TableCell>
-
-                    {/* CWV */}
-                    <TableCell className="text-center py-4">
-                      {getCWVPassFail(store.cwvStatus)}
-                    </TableCell>
-
-                    {/* Traffic */}
-                    <TableCell className="text-center py-4">
-                      <div className="flex items-center justify-center gap-1 text-xs">
-                        <Eye className="h-3 w-3 text-blue-500" />
-                        <span className="font-medium text-foreground">{store.visitors}</span>
-                      </div>
-                    </TableCell>
-
-                    {/* Revenue */}
-                    <TableCell className="text-center py-4">
-                      <div className="flex items-center justify-center gap-1">
-                        <DollarSign className="h-3 w-3 text-green-600" />
-                        <span className="font-semibold text-green-600">{store.revenue}</span>
-                      </div>
-                    </TableCell>
-
-                    {/* Satisfaction */}
+                    {/* Satisfacción */}
                     <TableCell className="text-center py-4">
                       <div className="flex items-center justify-center gap-1">
                         {getSatisfactionIcon(store.satisfaction)}
                         <span className="font-bold">{store.satisfaction}%</span>
                       </div>
                     </TableCell>
-
-                    {/* Feedback */}
+                    {/* AI Agents */}
                     <TableCell className="text-center py-4">
-                      <div className="flex items-center justify-center gap-1">
-                        {getSentimentIcon(store.sentiment)}
-                        <span className="text-xs text-muted-foreground">{store.lastFeedback}</span>
-                      </div>
+                      <span className="text-xl font-bold text-primary">{store.aiAgents}</span>
                     </TableCell>
-
+                    {/* CWV */}
+                    <TableCell className="text-center py-4">
+                      {getCWVPassFail(store.cwvStatus)}
+                    </TableCell>
                     {/* Priority */}
                     <TableCell className="text-center py-4">
                       <Badge variant="outline" className={`text-xs ${getPriorityBadgeColor(store.priority)}`}>
                         {store.priority}
                       </Badge>
                     </TableCell>
-
-                    {/* AI Agents */}
+                    {/* Feedback */}
                     <TableCell className="text-center py-4">
                       <div className="flex items-center justify-center gap-1">
-                        <span className="text-xl font-bold text-primary">{store.aiAgents}</span>
+                        {getSentimentIcon(store.sentiment)}
+                        <span className="text-xs text-muted-foreground">{store.lastFeedback}</span>
                       </div>
-                    </TableCell>
-
-                    {/* Critical Issues */}
-                    <TableCell className="text-center py-4">
-                      <div className="flex items-center justify-center gap-1">
-                        <AlertTriangle className={`h-4 w-4 ${store.criticalIssues > 0 ? 'text-red-500' : 'text-green-500'}`} />
-                        <span className={`text-lg font-bold ${store.criticalIssues > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                          {store.criticalIssues}
-                        </span>
-                      </div>
-                    </TableCell>
-
-                    {/* Status */}
-                    <TableCell className="text-center py-4">
-                      <div className="space-y-1">
-                        <div className="text-xs text-muted-foreground">Last sync</div>
-                        <div className="text-xs font-medium text-foreground">{store.lastSync}</div>
-                      </div>
-                    </TableCell>
-
-                    {/* Actions */}
-                    <TableCell className="py-4">
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -92,7 +92,7 @@ export default function Dashboard() {
           </header>
           
           <main className="flex-1 p-6">
-            <div className="mx-auto max-w-7xl space-y-8">
+            <div className="mx-auto max-w-5xl space-y-8">
               {/* Header */}
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold text-foreground">
@@ -119,13 +119,9 @@ export default function Dashboard() {
               <QuickActions />
 
               {/* Monitoring Section */}
-              <div className="grid gap-6 lg:grid-cols-4">
-                <div className="lg:col-span-3">
-                  <StoreMonitoringTable />
-                </div>
-                <div className="lg:col-span-1">
-                  <AIAgentsStatus />
-                </div>
+              <div className="space-y-6">
+                <StoreMonitoringTable />
+                <AIAgentsStatus />
               </div>
 
               {/* Nested routes content */}

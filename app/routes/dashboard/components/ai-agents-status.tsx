@@ -10,34 +10,34 @@ const aiAgents = [
     name: "AI Client Sentiment Monitor",
     type: "NLP",
     status: "active",
-    description: "Analiza emails y llamadas de clientes para detectar satisfacción y señales de riesgo en tiempo real.",
+    description: "Analyzes client emails and calls to detect satisfaction and risk signals in real time.",
     uptime: "99.9%",
-    todayProcessed: "1.8K mensajes",
+    todayProcessed: "1.8K messages",
     icon: Brain,
   },
   {
     name: "AI PM Feedback Assistant",
     type: "Analytics",
     status: "active",
-    description: "Resume feedback de los project managers y resalta issues urgentes para el equipo de liderazgo.",
+    description: "Summarizes project manager feedback and highlights urgent issues for the leadership team.",
     uptime: "100%",
-    todayProcessed: "32 reportes",
+    todayProcessed: "32 reports",
     icon: BarChart3,
   },
   {
-    name: "AutoFeedback para PMs",
+    name: "AutoFeedback for PMs",
     type: "ML",
     status: "active",
-    description: "Genera retroalimentación automática para los PMs basada en sus interacciones recientes con clientes.",
+    description: "Generates automatic feedback for project managers based on their recent client interactions.",
     uptime: "98.7%",
-    todayProcessed: "17 sesiones",
+    todayProcessed: "17 sessions",
     icon: Bot,
   },
   {
     name: "Creative Brief Generator",
     type: "Content",
     status: "maintenance",
-    description: "Genera briefs creativos automáticamente a partir de notas y reuniones con clientes.",
+    description: "Automatically generates creative briefs from client notes and meeting transcripts.",
     uptime: "97.5%",
     todayProcessed: "12 briefs",
     icon: Package,
@@ -72,10 +72,10 @@ function getStatusBadgeColor(status: string) {
 
 export function AIAgentsStatus() {
   return (
-    <Card className="bg-card-texture">
+    <Card className="bg-card-texture shadow-lg">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
-          <Bot className="h-5 w-5 text-primary" />
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+          <Bot className="h-6 w-6 text-primary" />
           Internal AI Agents
         </CardTitle>
         <p className="text-sm text-muted-foreground">
@@ -83,57 +83,51 @@ export function AIAgentsStatus() {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        {aiAgents.map((agent, index) => {
-          const IconComponent = agent.icon
-          return (
-            <div
-              key={index}
-              className="p-4 rounded-lg border border-border/50 bg-background/30 transition-shadow hover:shadow-lg hover:bg-background/60"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-md bg-muted/50">
-                    <IconComponent className="h-4 w-4 text-muted-foreground" />
+        <div className="flex flex-col gap-4">
+          {aiAgents.map((agent, index) => {
+            const IconComponent = agent.icon
+            return (
+              <div
+                key={index}
+                className="p-4 rounded-xl border border-border/50 bg-background/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:shadow-md transition"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-muted/60 flex items-center justify-center">
+                    <IconComponent className="h-7 w-7 text-primary" />
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground flex items-center gap-1">
+                    <div className="font-semibold flex items-center gap-2 text-foreground">
                       {agent.name}
-                      {/* Optional: Info icon for tooltip */}
-                      {/* <Info className="h-3 w-3 text-muted-foreground cursor-pointer" /> */}
+                      {/* <Info className="h-4 w-4 text-muted-foreground" /> */}
                     </div>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs mt-1">
                       {agent.type}
                     </Badge>
+                    <p className="text-xs text-muted-foreground mt-1">{agent.description}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className={`h-2 w-2 rounded-full ${getStatusColor(agent.status)}`} />
-                  <Badge className={getStatusBadgeColor(agent.status)}>
-                    {agent.status}
-                  </Badge>
+                <div className="flex flex-col gap-2 sm:items-end">
+                  <div className="flex items-center gap-2">
+                    <span className={`h-2 w-2 rounded-full ${getStatusColor(agent.status)}`} />
+                    <Badge className={getStatusBadgeColor(agent.status)}>
+                      {agent.status}
+                    </Badge>
+                  </div>
+                  <div className="flex gap-4 text-xs mt-1">
+                    <span>
+                      <span className="text-muted-foreground">Uptime: </span>
+                      <span className="font-semibold">{agent.uptime}</span>
+                    </span>
+                    <span>
+                      <span className="text-muted-foreground">Today: </span>
+                      <span className="font-semibold">{agent.todayProcessed}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-3">
-                {agent.description}
-              </p>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Uptime: </span>
-                  <span className="font-semibold text-foreground">{agent.uptime}</span>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Hoy: </span>
-                  <span className="font-semibold text-foreground">{agent.todayProcessed}</span>
-                </div>
-              </div>
-              {index < aiAgents.length - 1 && (
-                <div className="mt-4">
-                  <div className="border-t border-border/30" />
-                </div>
-              )}
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </CardContent>
     </Card>
   )
